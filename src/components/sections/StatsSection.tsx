@@ -19,23 +19,48 @@ function StatItem({ stat, index }: { stat: Stat; index: number }) {
       transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
       className="px-8 py-14 md:py-20 flex flex-col gap-3"
     >
-      {/* Giant counter */}
-      <div
-        className="font-display font-bold tracking-tight leading-none"
-        style={{
-          fontSize: "clamp(3.5rem, 6vw, 6rem)",
-          background: "linear-gradient(135deg, #EEF4FF 60%, #00C2FF 100%)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-        }}
-      >
-        <AnimatedCounter
-          value={stat.value}
-          suffix={stat.suffix ?? ""}
-          prefix={stat.suffix === "M" ? "$" : ""}
-          duration={2200}
-        />
+      {/* Giant counter — prefix/number at full size, suffix smaller and top-aligned */}
+      <div className="flex items-start leading-none">
+        {stat.suffix === "M" && (
+          <span
+            className="font-display font-bold tracking-tight mt-1"
+            style={{
+              fontSize: "clamp(1.5rem, 2.5vw, 2.25rem)",
+              background: "linear-gradient(135deg, #EEF4FF 60%, #00C2FF 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            $
+          </span>
+        )}
+        <span
+          className="font-display font-bold tracking-tight"
+          style={{
+            fontSize: "clamp(3rem, 5.5vw, 5.5rem)",
+            background: "linear-gradient(135deg, #EEF4FF 60%, #00C2FF 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
+          <AnimatedCounter value={stat.value} duration={2200} />
+        </span>
+        {stat.suffix && (
+          <span
+            className="font-display font-bold tracking-tight mt-1"
+            style={{
+              fontSize: "clamp(1.5rem, 2.5vw, 2.25rem)",
+              background: "linear-gradient(135deg, #EEF4FF 60%, #00C2FF 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            {stat.suffix}
+          </span>
+        )}
       </div>
 
       {/* Label */}
