@@ -1,20 +1,14 @@
-# NexaGenesis Biosciences — Animated Landing Page
+# NexaGenesis Biosciences — Biotech Animated Landing Page
 
-**Round 1 — Creative Frontend Developer (Task 01)**
+Round 1 submission for the Creative Frontend Developer role.
 
-A premium, clinical-stage biotech landing page for a fictional Series-C epigenetics company. Built to demonstrate animation craft, scientific visual identity, and frontend engineering quality — not a template.
-
----
-
-## Live Demo
-
-Deployed on Vercel via the `EMEDAT24` branch.
+I built a full landing page for a fictional clinical-stage biotech company called NexaGenesis Biosciences. The brief said biotech — so I went deep: real-sounding science, real pipeline programs, real clinical trial IDs, FDA designations, the whole thing. I didn't want it to look like someone dropped a Framer template and called it a day.
 
 ---
 
-## Setup
+## Getting it running
 
-**Requirements:** Node.js 25 (see `.nvmrc`), npm
+You'll need Node 25 (there's an `.nvmrc` in the root).
 
 ```bash
 git clone https://github.com/EMEDAT/biotech-landing.git
@@ -24,7 +18,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Hit `http://localhost:3000` and you're good.
 
 ```bash
 npm run build   # production build
@@ -33,138 +27,73 @@ npm run lint    # ESLint
 
 ---
 
-## Tech Stack
+## Stack
 
-| Layer | Choice |
-|---|---|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript (strict) |
-| Styling | Tailwind CSS v3 |
-| Scroll / micro animations | Framer Motion |
-| Complex timelines | GSAP + ScrollTrigger |
-| 3D / WebGL | React Three Fiber + Drei |
-| Icons | Lucide React |
-| Fonts | Space Grotesk (headings) · Inter (body) |
-| Deployment | Vercel |
+- **Next.js 14** (App Router) — SSR, file-based routing
+- **TypeScript** strict mode throughout
+- **Tailwind CSS** — no inline styles unless Framer/GSAP needs them
+- **Framer Motion** — scroll reveals, tab transitions, SVG path animations
+- **GSAP + ScrollTrigger** — the pipeline track (scroll-scrubbed SVG draw)
+- **React Three Fiber + Drei** — the 3D protein mesh in the hero
+- **Lucide React** — icons
+- **Space Grotesk + Inter** — headings and body respectively
 
 ---
 
-## Design Approach
+## Design decisions
 
-### Identity — Not a Template
-The brief required a real-feeling biotech company. Every decision was made to avoid generic biotech patterns:
+The first thing I decided was: no DNA helix. Every biotech template uses a DNA helix. Instead, the hero has a low-poly EZH2 protein mesh — a specific epigenetic target that actually matters to the company's science. Small detail, but it's the difference between looking real and looking like a template.
 
-- **Hero visual:** A low-poly EZH2 protein mesh (React Three Fiber) — not a DNA helix. The specific protein target signals actual scientific identity.
-- **Color discipline:** One primary accent (cyan `#00C2FF`). Emerald only for clinical data. Amber only for early-stage pipeline markers. Violet removed entirely. Restraint signals premium.
-- **Typography:** Space Grotesk for headings (scientific, modern), Inter for body, JetBrains Mono for clinical identifiers (trial IDs, phase labels, metric values).
-- **Copy:** All text is specific to epigenetics, PRC2 pathway biology, FDA designations, NCT trial IDs — not marketing filler.
+Color-wise, I kept it to one primary accent (cyan). Emerald only for positive clinical data, amber only for early-stage pipeline markers. The restraint is intentional — overloading a palette with purples and blues and gradients everywhere is what makes sites feel generic. One accent, used well, reads premium.
 
-### Reference: DeepPiction (Principle-Derived, Not Copied)
-The design was informed by studying DeepPiction's approach:
-- Near-black background (`#04080F`) with restrained single accent
-- Generous whitespace as the primary premium signal (`py-28 md:py-36 lg:py-44`)
-- Scientific visuals over generic 3D decorations
-- Two signature animated moments; everything else is subtle scroll reveals
+I studied how DeepPiction approaches scientific design — not to copy it, but to pull out principles. Generous whitespace, near-black backgrounds, confidence in what you're NOT showing. That thinking is all over this build.
 
 ---
 
-## Animation Architecture
+## Animation approach
 
-### Two Signature Moments (everything else is subtle)
+I set two rules for myself upfront:
+1. Two signature animation moments. Everything else is subtle.
+2. If an animation doesn't serve the science narrative, cut it.
 
-**1. Hero Protein Mesh — React Three Fiber**
-- EZH2-style low-poly sphere with wireframe shell overlay
-- Auto-rotates on Y axis (0.003 rad/frame)
-- Mouse parallax: mesh tilts ±8° on X/Y with cursor position (desktop)
-- Ambient cyan point light — no bloom
-- Mobile: static gradient orb fallback (no R3F load on mobile)
+**Signature moment 1 — Hero protein mesh (React Three Fiber)**
+The EZH2 mesh auto-rotates on the Y axis and tilts with your mouse position on desktop. There's an ambient cyan point light giving it some surface depth. On mobile it falls back to a static gradient orb — no Three.js loaded at all on mobile.
 
-**2. Pipeline SVG Track — GSAP + ScrollTrigger**
-- Custom SVG horizontal track across all four pipeline stages
-- `stroke-dashoffset` animation tied to scroll position (`scrub: 1`) — feels tactile
-- Program nodes scale in as the track line reaches them
-- Phase labels stagger in after each node appears
-- Click to expand detail card per program
+**Signature moment 2 — Pipeline SVG track (GSAP + ScrollTrigger)**
+This one I'm proud of. The pipeline track is a custom SVG that draws left to right as you scroll — `stroke-dashoffset` tied to scroll position with `scrub: 1` so it feels completely tactile. Each program node pops in as the line reaches it. Click a node and a detail card expands with the mechanism of action, indication, trial ID. It's the most "this site is different" moment on the page.
 
-### Scroll Reveals — Framer Motion
-- `SectionWrapper` wraps every section: `opacity: 0, y: 28` → `opacity: 1, y: 0`, 0.6s easeOut
-- `staggerChildren: 0.08` on direct children
-- `once: true` — no replay on scroll-back
-- `useReducedMotion()` checked globally; all transitions disabled when user prefers reduced motion
+**Everything else** uses Framer Motion scroll reveals — `opacity: 0, y: 28` fading up with staggered children. I used `once: true` everywhere so animations don't replay on scroll-back, which I think feels more polished.
 
-### Platform Tab Navigator — Framer Motion
-- Numbered tab system (01 / 02 / 03) for HELIX-AI™ platform modules
-- `AnimatePresence` for content panel transitions between tabs
-- On each tab activate: animated Zajno-inspired dendrogram SVG — central spine draws, three branches grow outward, sub-branches extend, terminal nodes pop in (all via `pathLength: 0 → 1` sequentially)
+**Platform section** has a numbered tab navigator (01 / 02 / 03) for the three platform modules. Each tab switch triggers a branching dendrogram SVG — lines grow outward from a central spine using `pathLength: 0 → 1`. This was inspired by a Zajno design I studied, but built from scratch.
 
-### Programs Section — Ruled Row List
-- Click-to-expand rows with `AnimatePresence` height animation
-- Left accent rule appears on expand (Framer Motion opacity)
-- Watermark index numbers shift accent color on expand
+**Stats section** — I scrapped the typical card grid and just used full-width ruled lines with the numbers at display scale. Giant `clamp(3.5rem, 6vw, 6rem)` with a white-to-cyan gradient. The numbers become the visual, not the container.
 
-### Stats Section — Display Numbers
-- `AnimatedCounter` component: count-up on intersection via `useInView`
-- Numbers at `clamp(3.5rem, 6vw, 6rem)` — white→cyan gradient
-- Full-width ruled strip: no card boxes, only 1px dividers
+**Programs section** — ruled full-width rows instead of cards. Click a row to expand the detail text. The index number (01, 02, 03) shifts to the area's accent color on expand.
 
-### Glow Discipline
-- Glow **only** on: hero protein mesh (ambient radial) + primary CTA button (hover pulse)
-- Nowhere else — overused glow is the most reliable marker of a template
+**CTA section** — single contained `rounded-2xl` card split into two columns: investor pitch on the left, a partner contact form on the right. Felt more functional and intentional than two bordered boxes with buttons.
 
 ---
 
-## Component Structure
+## A few things I was strict about
+
+- All copy lives in `lib/constants.ts` — nothing hardcoded in JSX
+- All Three.js/R3F components are dynamically imported with `ssr: false` — SSR would silently break otherwise
+- `useReducedMotion()` is checked globally and kills all transitions when the user has that preference set
+- Glow only appears on the hero mesh and the primary CTA button hover. Nowhere else. Glow on cards and headings is a template tell.
+
+---
+
+## Project structure
 
 ```
 src/
-  app/
-    layout.tsx              — root layout, font loading, structured metadata
-    page.tsx                — section assembly only, no logic
-    globals.css             — CSS custom properties, Tailwind base
-
+  app/               — layout, page, globals
   components/
-    layout/
-      Navbar.tsx            — fixed, blur/border on scroll, mobile hamburger
-      Footer.tsx            — columns: Company / Science / Pipeline / Investors
-    sections/
-      HeroSection.tsx       — full-viewport, R3F protein mesh, GSAP entrance
-      PartnersStrip.tsx     — CSS marquee, text wordmarks only
-      AboutSection.tsx      — founding story + timeline + ruled metric strip
-      PlatformSection.tsx   — numbered tab navigator + branching SVG
-      PipelineSection.tsx   — GSAP SVG track (Signature #2)
-      ProgramsSection.tsx   — ruled row list with expand/collapse
-      StatsSection.tsx      — display-scale number strip
-      CTASection.tsx        — contained dark card + contact form
-    ui/
-      GlowButton.tsx        — primary/ghost variants
-      SectionWrapper.tsx    — Framer Motion scroll-reveal wrapper
-      AnimatedCounter.tsx   — count-up on intersection
-      PhaseTag.tsx          — phase pill: color-coded, no hover glow
-      GradientText.tsx      — heading gradient mask
-      TrialTicker.tsx       — scrolling clinical trial strip
-    three/
-      ProteinMesh.tsx       — R3F: EZH2 sphere, auto-rotate, mouse parallax
-      ChromatinField.tsx    — canvas: chromatin fiber background (~4% opacity)
-
-  hooks/
-    useScrollProgress.ts
-    useInView.ts
-    useReducedMotion.ts     — respects prefers-reduced-motion globally
-
-  lib/
-    animations.ts           — shared Framer Motion variants
-    constants.ts            — ALL site copy and data (no strings hardcoded in JSX)
-
-  types/
-    index.ts                — PipelineProgram, PlatformModule, Stat, TherapeuticProgram
+    layout/          — Navbar, Footer
+    sections/        — one file per section
+    ui/              — reusable: GlowButton, AnimatedCounter, PhaseTag, etc.
+    three/           — ProteinMesh (R3F), ChromatinField (canvas)
+  hooks/             — useScrollProgress, useInView, useReducedMotion
+  lib/               — animations.ts (Framer variants), constants.ts (all copy)
+  types/             — shared TypeScript interfaces
 ```
-
----
-
-## Performance
-
-- All R3F / Three.js: `dynamic(() => import(...), { ssr: false })` — prevents SSR failure
-- `LazyMotion` with `domAnimation` feature set — saves ~16kb vs full bundle
-- Partner strip: CSS `@keyframes` only, zero JS
-- `useReducedMotion()` checked at hook level, not scattered in components
-- No `will-change` on more than 3 elements simultaneously
