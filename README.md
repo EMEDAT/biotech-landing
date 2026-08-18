@@ -2,7 +2,7 @@
 
 Round 1 submission for the Creative Frontend Developer role.
 
-I built a full landing page for a fictional clinical-stage biotech company called NexaGenesis Biosciences. The brief said biotech — so I went deep: real-sounding science, real pipeline programs, real clinical trial IDs, FDA designations, the whole thing. I didn't want it to look like someone dropped a Framer template and called it a day.
+I built a full landing page for a fictional clinical-stage biotech company called NexaGenesis Biosciences. The brief said biotech, so I went deep: real-sounding science, real pipeline programs, real clinical trial IDs, FDA designations, the whole thing. I didn't want it to look like someone dropped a Framer template and called it a day.
 
 ---
 
