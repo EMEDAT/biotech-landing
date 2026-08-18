@@ -42,11 +42,11 @@ npm run lint    # ESLint
 
 ## Design decisions
 
-The first thing I decided was: no DNA helix. Every biotech template uses a DNA helix. Instead, the hero has a low-poly EZH2 protein mesh — a specific epigenetic target that actually matters to the company's science. Small detail, but it's the difference between looking real and looking like a template.
+The first thing I decided was: no DNA helix. Every biotech template I saw uses a DNA helix. Instead, my hero has a low-poly EZH2 protein mesh, a specific epigenetic target that actually matters to the company's science. Small detail, but it's the difference between looking real and looking like a template every other employs.
 
-Color-wise, I kept it to one primary accent (cyan). Emerald only for positive clinical data, amber only for early-stage pipeline markers. The restraint is intentional — overloading a palette with purples and blues and gradients everywhere is what makes sites feel generic. One accent, used well, reads premium.
+Color-wise, I kept it to one primary accent (cyan). Emerald only for positive clinical data, amber only for early-stage pipeline markers. The restraint is intentional, overloading a palette with purples and blues and gradients everywhere could make my site feel generic especially after we were told not to eplicate the design reference. One accent, used well like i have done, reads premium.
 
-I studied how DeepPiction approaches scientific design — not to copy it, but to pull out principles. Generous whitespace, near-black backgrounds, confidence in what you're NOT showing. That thinking is all over this build.
+I studied how DeepPiction approaches scientific design, not to copy it, but to pull out principles. Generous whitespace, near-black backgrounds, confidence in what you're NOT showing. That thinking is all over what I have built here.
 
 ---
 
@@ -54,13 +54,13 @@ I studied how DeepPiction approaches scientific design — not to copy it, but t
 
 I set two rules for myself upfront:
 1. Two signature animation moments. Everything else is subtle.
-2. If an animation doesn't serve the science narrative, cut it.
+2. If an animation doesn't serve the science narrative, I cut it.
 
 **Signature moment 1 — Hero protein mesh (React Three Fiber)**
-The EZH2 mesh auto-rotates on the Y axis and tilts with your mouse position on desktop. There's an ambient cyan point light giving it some surface depth. On mobile it falls back to a static gradient orb — no Three.js loaded at all on mobile.
+The EZH2 mesh auto-rotates on the Y axis and tilts with your mouse position on desktop. There's an ambient cyan point light giving it some surface depth. On mobile it falls back to a static gradient orbit. No Three.js loaded at all on mobile.
 
 **Signature moment 2 — Pipeline SVG track (GSAP + ScrollTrigger)**
-This one I'm proud of. The pipeline track is a custom SVG that draws left to right as you scroll — `stroke-dashoffset` tied to scroll position with `scrub: 1` so it feels completely tactile. Each program node pops in as the line reaches it. Click a node and a detail card expands with the mechanism of action, indication, trial ID. It's the most "this site is different" moment on the page.
+This one I'm proud of. The pipeline track is a custom SVG that draws left to right as you scroll, `stroke-dashoffset` tied to scroll position with `scrub: 1` so it feels completely tactile. Each program node pops in as the line reaches it. Click a node and a detail card expands with the mechanism of action, indication, trial ID. It's the most "simply animated but efficient" moment on the page.
 
 **Everything else** uses Framer Motion scroll reveals — `opacity: 0, y: 28` fading up with staggered children. I used `once: true` everywhere so animations don't replay on scroll-back, which I think feels more polished.
 
